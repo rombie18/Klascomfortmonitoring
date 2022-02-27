@@ -1,0 +1,45 @@
+version: '3.3'
+services:
+  grafana:
+    container_name: grafana
+    ports:
+      - '80:3000'
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - 'GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,agenty-flowcharting-panel'
+    restart: unless-stopped
+    depends_on:
+      - 'db'
+    image: grafana/grafana-oss
+
+  db:
+    container_name: db
+#   ports:
+#     - '3306:3306'
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=ib2
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    image: mysql
+
+  nodered:
+    container_name: nodered
+    ports:
+      - '81:1880'
+    volumes:
+      - nodered_data:/data
+    environment:
+      - TZ=Europe/Brussels
+    restart: unless-stopped
+    depends_on:
+      - 'db'
+    image: nodered/node-red
+
+volumes:
+  db_data:
+  grafana_data:
+  nodered_data:
