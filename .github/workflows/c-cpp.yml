@@ -12,12 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+      - name: Build STM32CubeIde project
+        uses: xanderhendriks/action-build-stm32cubeide@v4.0
+        with:
+          project-path: 'Sensor unit/Code/room_quality_monitor'
+          project-target: 'room_quality_monitor'
