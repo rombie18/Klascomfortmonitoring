@@ -10,7 +10,7 @@ const int status_led_pin = 2;
 /* CONSTANTS */
 const char* ssid = "linksys";
 const char* password = "";
-const char* mqtt_server = "192.168.1.112";
+const char* mqtt_server = "192.168.1.111";
 
 /* VARIABLES */
 bool power_led_state = true;

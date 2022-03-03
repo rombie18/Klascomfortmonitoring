@@ -136,13 +136,13 @@ int main(void)
 	  ret = HAL_I2C_Master_Transmit(&hi2c1, HIH7000_ADDR, data_buf, 1, HAL_MAX_DELAY);
 	  HAL_Delay(250);
 	  if ( ret != HAL_OK ) {
-		  strcpy((char*)string_buf, "Error Tx\r\n");}
+		  strcpy((char*)string_buf, "{\"status\": \"error\", \"source\": \"nucleo\", \"msg\": \"Temp&Humid: Error Tx\"}\r\n");}
 	  else {
 		  // Read 4 bytes from the HIH7000 register
 		  ret = HAL_I2C_Master_Receive(&hi2c1, HIH7000_ADDR, data_buf, 4, HAL_MAX_DELAY);
 		  HAL_Delay(250);
 		  if ( ret != HAL_OK ) {
-			  strcpy((char*)string_buf, "Error Rx\r\n");}
+			  strcpy((char*)string_buf, "{\"status\": \"error\", \"source\": \"nucleo\", \"msg\": \"Temp&Humid: Error Rx\"}\r\n");}
 		  else {
 
 			  // Process the data
@@ -188,13 +188,13 @@ int main(void)
       ret = HAL_I2C_Master_Transmit(&hi2c1, MiCS_VZ89_ADDR, data_buf, 6, HAL_MAX_DELAY);
       HAL_Delay(250);
       if ( ret != HAL_OK ) {
-          strcpy((char)string_buf, "Error Tx\r\n");}
+    	  strcpy((char*)string_buf, "{\"status\": \"error\", \"source\": \"nucleo\", \"msg\": \"CO2&VOC: Error Tx\"}\r\n");}
       else {
            // Read 4 bytes from the HIH7000 register
            ret = HAL_I2C_Master_Receive(&hi2c1, MiCS_VZ89_ADDR, data_buf, 6, HAL_MAX_DELAY);
            HAL_Delay(250);
            if ( ret != HAL_OK ) {
-               strcpy((char)string_buf, "Error Rx\r\n");}
+        	   strcpy((char*)string_buf, "{\"status\": \"error\", \"source\": \"nucleo\", \"msg\": \"CO2&VOC: Error Rx\"}\r\n");}
            else {
 
                // Process the data
@@ -216,8 +216,8 @@ int main(void)
     sprintf((char*)string_buf, "Status: %u - Humid: %u.%02u % - Temp: %u.%02u - tVOC: %u - CO2: %u  \r\n",
          	(unsigned int) status,decHumid, fracHumid, decTemp, fracTemp, tVOC, CO2);
 
-    sprintf((char*)string_buf_transmit, "T:%u.%02u,RH:%u.%02u,CO2:%u,VOC:%u\r\n",
-                  		   	   	   	   	   	   	   	   	   	   	   decTemp, fracTemp, decHumid, fracHumid, CO2, tVOC);
+    sprintf((char*)string_buf, "{\"lokaal\": \"E119\", \"temperature\": %u.%u, \"humidity\": %u.%u, \"co2\": %u, \"VOC\": %u, \"noise\": 0}\r\n",
+    																						decTemp, fracTemp, decHumid, fracHumid, CO2, tVOC);
 
     // Print the output
     	  HAL_UART_Transmit(&huart2, string_buf, strlen((char*)string_buf), HAL_MAX_DELAY);
